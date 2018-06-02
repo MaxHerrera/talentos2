@@ -6,10 +6,10 @@ import serial
 puerto = serial.Serial('/dev/tty.usbmodem1411')
 
 ventana=Tk()
-lienzo=Canvas(ventana,width=500,height=500)
+lienzo=Canvas(ventana,width=1000,height=1000)
 
 lienzo.pack()
-lienzo.create_rectangle(200,350,300,450,fill='red')
+lienzo.create_rectangle(400,400,450,450,fill='red')
 Tk.update(ventana)
 time.sleep(3)
 
@@ -18,6 +18,7 @@ y="0"
 
 while True:
 
+    serial.Serial.flushInput(puerto)
     datos = str(serial.Serial.readline(puerto))
     print(datos)
     if int(datos.find("X: ")) == 2:
@@ -27,23 +28,26 @@ while True:
         y = (datos[5:datos.find("\r\n'")-4])
         print(y)
 
-'''
-    if mov=="arriba":
-        lienzo.move(1,0,-2)
-        Tk.update(ventana)
-        time.sleep(0.1)
 
-    if mov=="abajo":
-        lienzo.move(1,0,2)
+    if int(x)<543 and int(x)!=0 :
+        lienzo.move(1,-(543-int(x)),0)
         Tk.update(ventana)
-        time.sleep(0.1)
+        time.sleep(0.25)
 
-    if mov=="izquierda":
-        lienzo.move(1,-2,0)
+    if int(x)>543 and int(x)!=0:
+        lienzo.move(1,(int(x)-543), 0)
         Tk.update(ventana)
-        time.sleep(0.1)
-    if mov=="derecha":
-        lienzo.move(1,2,0)
+        time.sleep(0.25)
+
+    if int(y) < 564 and int(y)!=0:
+        lienzo.move(1,0, -(564 - int(y)))
         Tk.update(ventana)
-        time.sleep(0.1)
-'''
+        time.sleep(0.25)
+        
+    if int(y) > 564 and int(y)!=0:
+        lienzo.move(1,0, (int(y) - 564))
+        Tk.update(ventana)
+        time.sleep(0.25)
+
+
+
